@@ -56,11 +56,35 @@ class Hero(Character):
         return f'Текущее HP {self.name} = {self.hp}'
 
     def attack(self, target):
-        damage = self.attack_damage
-        if random.random() < self.crit:
-            damage *= 2
-            print('Критический Удар!')
-            time.sleep(1.5)
+        while True:
+            chose = input('Выберите тип атаки:\n'
+                          '1. Удар в голову\n'
+                          '2. Обычный удар\n'
+                          '3. Случайный удар\n').lower()
+            if chose == '1' or chose == 'удар в голову':
+                if random.random() < 0.1:
+                    damage = target.hp
+                    print(f'Вы попали {target.name}у в голову!')
+                    time.sleep(1.5)
+                    break
+                else:
+                    return 'Вы промахнулись'
+
+            elif chose == '2' or chose == 'обычный удар':
+                damage = self.attack_damage
+                if random.random() < self.crit:
+                    damage *= 2
+                    print('Критический Удар!')
+                    time.sleep(1.5)
+                break
+
+            elif chose == '3' or chose == 'случайный удар':
+                damage = random.randint(int(self.attack_damage * 0.1), int(self.attack_damage * 2))
+                if random.random() < self.crit:
+                    damage *= 2
+                    print('Критический Удар!')
+                    time.sleep(1.5)
+                break
         damage = max(1, damage - target.defense)
         print(target.take_damage(damage))
 
@@ -276,11 +300,11 @@ if __name__ == '__main__':
         chose = input('1. Новая игра\n'
                       '2. Продолжить игру\n'
                       '3. Выход\n')
-        if chose.lower() == 'новая игра' or chose.lower() == 1:
+        if chose.lower() == 'новая игра' or chose.lower() == '1':
             Game.new_game()
-        elif chose.lower() == 'продолжить игру' or chose.lower() == 2:
+        elif chose.lower() == 'продолжить игру' or chose.lower() == '2':
             Game.start()
-        elif chose.lower() == 'выход' or chose.lower() == 3:
+        elif chose.lower() == 'выход' or chose.lower() == '3':
             Game.game_over()
 
 
